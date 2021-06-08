@@ -48,16 +48,9 @@
           </div>
         </div>
          <div class="table-responsive">
-          @if ($message = Session::get('success'))
-         <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong><p>{{ $message }}</p></strong>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    @endif
        
    <div class="card-body btn-sm">
+    <!--
   <form action="/admin/cariid" method="GET" class="id">
     <input type="number" name="cariid" placeholder="Cari ID Admin ..." value="{{ old('cariid') }}">
     <input type="submit" value="CARI" class="btn-success">
@@ -74,9 +67,10 @@
     <input type="text" name="cariusername" placeholder="Cari Username Admin..." value="{{ old('cariusername') }}">
     <input type="submit" value="CARI" class="btn-success">
   </form>
-        <!--
-        <a href="/admin/new" class="btn btn-primary btn-sm">Tambah Admin</a>
-        -->
+-->
+     <!--
+        <a href="/admin/new" class="btn btn-success btn-sm">Tambah Admin</a>
+      -->
                     <table class="table table-striped btn-sm">
                       <tr>
                         <th>No</th>
@@ -93,7 +87,6 @@
                         <th>Date</th>
                         <th>Email</th>
                         <th>Nomor</th>
-                        <th>Role</th>
                         <th>Action</th>
                       </tr>
                       @php
@@ -120,7 +113,7 @@
       
                           @if(auth()->user()->role == '123')
                           <!--
-                          <form action="/beshop/delete/{{$beshop->id}}" method="post">
+                          <form action="/admin/delete/{{$admin->id}}" method="post">
                           {{ csrf_field() }}
                           {{ method_field('DELETE') }}
                           <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
@@ -132,12 +125,14 @@
                       @endforeach
                     </table>
                     <br>
+                    <!--
                   {{ $admins->links() }}
                   <br>
-                  <label style="color: #123c69">Jumlah Data Admin Adalah: {{ $admins->total() }}</label>
+                  <label style="color: #123c69">JUMLAH DATA ADMIN SAAT INI: {{ $admins->total() }}</label>
+                -->
+           </div>
          </div>
-        </div>
-      </div>
+     
         <!-- /.card-body -->
         <div class="card-footer">
          
@@ -147,6 +142,17 @@
       <!-- /.card -->
 
     </section>
+
+
+
+    
     @endif
-@endsection
+    @include('sweetalert::alert')
+    @endsection
+
+
+
+
+
+
 

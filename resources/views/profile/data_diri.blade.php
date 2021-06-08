@@ -30,15 +30,20 @@
           {{ csrf_field() }}
             @if(auth()->user()->role == 'admin')
             <div class="form-group">
-            <label>Nama Toko</label>
+            <label>Nama Depan</label>
             <label name="name" class="form-control">{{$user->name}}</label></div>
             @endif
-            @if(auth()->user()->role == 'user')
+            @if(auth()->user()->role == 'users')
             <div class="form-group">
             <label>Nama Depan</label>
             <label name="name" class="form-control">{{$user->name}}</label></div>
             @endif
-            @if(auth()->user()->role == 'user')
+            @if(auth()->user()->role == 'users')
+            <div class="form-group">
+            <label>Nama Belakang</label>
+            <label name="full_name" class="form-control">{{$user->full_name}}</label></div>
+            @endif
+             @if(auth()->user()->role == 'admin')
             <div class="form-group">
             <label>Nama Belakang</label>
             <label name="full_name" class="form-control">{{$user->full_name}}</label></div>
@@ -53,7 +58,7 @@
 
              <div class="form-group">
             <label>Alamat</label>
-            <label name="Us" class="form-control">{{$user->alamat}}</label></div>
+            <label name="alamat" class="form-control">{{$user->alamat}}</label></div>
 
             <div class="form-group">
             <label>Tanggal Lahir</label>

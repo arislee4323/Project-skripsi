@@ -60,7 +60,7 @@ Route::get('/user/carinomor',['middleware' =>'auth','uses' =>'UserController@car
 Route::get('/user/cariusername',['middleware' =>'auth','uses' =>'UserController@cariusername']);
 Route::get('/user/edit/{id}',['middleware' =>'auth','uses' =>'UserController@edit']);
 Route::post('/user/edit/{id}',['middleware' =>'auth','uses' =>'UserController@update']);
-Route::delete('/user/delete/{id}',['middleware' =>'auth','uses' =>'UserController@destroy']);
+Route::delete('/user/delete/',['middleware' =>'auth','uses' =>'UserController@destroy']);
 
 
 Route::get('/activity/new/{id}',['middleware' =>'auth','uses' => 'ActvityController@create']);
@@ -72,8 +72,12 @@ Route::get('/booking/new/{id}',['middleware' =>'auth','uses' => 'BookingControll
 Route::post('/booking/new/{id}',['middleware' =>'auth','uses' => 'BookingController@store']);
 Route::get('/booking/edit/{id}',['middleware' =>'auth','uses' => 'BookingController@edit']);
 Route::post('/booking/edit/{id}',['middleware' =>'auth','uses' => 'BookingController@update']);
-Route::delete('/booking/delete/{id}',['middleware' =>'auth','uses' => 'BookingController@destroy']);
+Route::delete('/booking/delete/',['middleware' =>'auth','uses' => 'BookingController@destroy']);
+Route::delete('/booking/delete/user/',['middleware' =>'auth','uses' => 'BookingController@delete']);
 Route::group(['middleware' => ['auth', 'CheckRole:users']], function(){
 Route::get('/process', ['middleware' =>'auth','uses' =>  'ProcessController@index']);
 });
 });
+
+
+

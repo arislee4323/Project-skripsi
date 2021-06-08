@@ -89,7 +89,7 @@
           </div>
           <div>
             <div class="form-group">
-            <label>tanggal</label>
+            <label>Tanggal Lahir</label>
             <input id="date" type="date" onkeydown="return false;" name="date" value="{{$user->date}}"  class="form-control @error('date') is-invalid @enderror" required autocomplete="date">
              @error('date')
               <span class="invalid-feedback" role="alert">

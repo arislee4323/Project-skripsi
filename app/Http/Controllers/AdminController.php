@@ -154,10 +154,13 @@ class AdminController extends Controller
             $user->full_name = $request->full_name;
             $user->username = $request->username;
             $user->jenis_kelamin = $request->jenis_kelamin;
+            $user->alamat = $request->alamat;
             $user->date = $request->date;
             $user->email = $request->email;
             $user->number = $request->number;
+
             $admin->name = $request->name;
+            $admin->full_name = $request->full_name;
             $admin->jam_buka = $request->jam_buka;
             $admin->jam_tutup = $request->jam_tutup;
             $admin->jenis_kelamin = $request->jenis_kelamin;
@@ -195,7 +198,7 @@ class AdminController extends Controller
         $admin->save();
 
         
-        return redirect('admin');
+        return redirect('admin')->with('success', 'Data Berhasil Di Edit!!!');
 
          
     }

@@ -31,8 +31,8 @@
           @if(auth()->user()->role == 'admin')
            <div class="form-group">
             <label>Buka Atau Tutup Toko Anda</label><br>
-            <input name="status" type="radio" value="1"  class="@error('status') is-invalid @enderror" required autocomplete="status">BUKA<br>
-            <input name="status" type="radio" value="0" class="@error('status') is-invalid @enderror" required autocomplete="status">TUTUP
+            <input name="status" type="radio" value="1"  class="@error('status') is-invalid @enderror" required autocomplete="status" {{$admin->status == '1'? 'checked' : ''}}>BUKA<br>
+            <input name="status" type="radio" value="0" class="@error('status') is-invalid @enderror"  required autocomplete="status" {{$admin->status == '0'? 'checked' : ''}}>TUTUP
             <input type="hidden" name="bb_id" value="{{ $admin->id }}">
              @error('status')
               <span class="invalid-feedback" role="alert">
@@ -55,3 +55,4 @@
     </section>
 
 @endsection
+

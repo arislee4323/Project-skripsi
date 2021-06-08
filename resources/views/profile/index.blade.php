@@ -62,7 +62,7 @@
                           <a href="/profile/password " style="color: black;">Edit Password</a><br>
                          <form action="{{ url('/profile/password') }}" method="post">
                          {{ csrf_field() }}
-                       <a href="/profile/data_diri/{{ $user->id  }} " style="color: black;">Lihat profil</a><br>
+                       <a href="/profile/data_diri/{{ $user->id  }} " style="color: black;">Lihat Profile</a><br>
                         @if(auth()->user()->role == 'admin')
                         <input type="submit" class="pull-right btn btn-sm btn-success">
                         @endif

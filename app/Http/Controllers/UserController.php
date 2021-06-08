@@ -42,7 +42,7 @@ class UserController extends Controller
      public function cariid(Request $request){
 
         $cariid = $request->cariid;
-        $users = user::where('id','Like',"%".$cariid."%")->paginate();
+        $users = user::where([['id','Like',"%".$cariid."%"], ['role', 'users']])->paginate();
         return view('user.index',compact('users'));
 
     }
@@ -50,7 +50,7 @@ class UserController extends Controller
      public function cariname(Request $request){
 
         $cariname = $request->cariname;
-        $users = user::where('name','Like',"%".$cariname."%")->paginate();
+        $users = user::where([['name','Like',"%".$cariname."%"], ['role', 'users']])->paginate();
         return view('user.index',compact('users'));
 
     }
@@ -58,7 +58,7 @@ class UserController extends Controller
     public function cariemail(Request $request){
 
         $cariemail = $request->cariemail;
-        $users = user::where('email','Like',"%".$cariemail."%")->paginate();
+        $users = user::where([['email','Like',"%".$cariemail."%"], ['role', 'users']])->paginate();
         return view('user.index',compact('users'));
 
     }
@@ -66,7 +66,7 @@ class UserController extends Controller
     public function carinomor(Request $request){
 
         $carinomor = $request->carinomor;
-        $users = user::where('nomor','Like',"%".$carinomor."%")->paginate();
+        $users = user::where([['number','Like',"%".$carinomor."%"], ['role', 'users']])->paginate();
         return view('user.index',compact('users'));
 
     }
@@ -74,7 +74,7 @@ class UserController extends Controller
      public function cariusername(Request $request){
 
         $cariusername = $request->cariusername;
-        $users = user::where('username','Like',"%".$cariusername."%")->paginate();
+        $users = user::where([['username','Like',"%".$cariusername."%"], ['role', 'users']])->paginate();
         return view('user.index',compact('users'));
 
     }
@@ -133,12 +133,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
         //
-         $user = user::find($id);
+        $id = $request->id;
+        $user = user::find($id);
         $user->delete();
 
-        return redirect('/user');
+        return redirect('/user')->with('success', 'Data User Berhasil Dihapus!!!');
     }
 }

@@ -31,19 +31,16 @@
         <div class="card-body">
         <form action="{{ url('/booking/new/'. $admin->id) }}" method="post">
           {{ csrf_field() }}
-
-
         <div class="form-group">
         <label>Pesan</label>
         <textarea name="pesan" placeholder="Masukan Pesan Jika Diperlukan..." class="form-control" rows="3"></textarea>
         <input type="hidden" name="bb_id" value="{{ $admin->id }}">
         <input type="hidden" name="user_id" value="{{ auth()->user()->id}}">
         </div>
-
-      <button type="submit" class="btn btn-success btn-sm">Booking</button>
-    </form>
+         <button type="submit" class="btn btn-success btn-sm">Booking</button>
         </div>
       </div>
+    </form>
         <!-- /.card-body -->
        
         <!-- /.card-footer-->

@@ -108,7 +108,7 @@
 
     {{-- Alamat field --}}
     <div class="input-group mb-3 btn-sm">
-        <input type="text" name="alamat" class="form-control {{ $errors->has('alamat') ? 'is-invalid' : ''}}" value="{{ old('alamat') }}" autofocus>
+        <input type="text" name="alamat" class="form-control {{ $errors->has('alamat') ? 'is-invalid' : ''}}" value="{{ old('alamat') }}" placeholder="Alamat" autofocus>
         <div class="input-group-append">
             <div class="input-group-text">
                 <span class="fas fa-address-card {{ config('adminlte.classes_auth_icon', '') }}">
@@ -124,7 +124,7 @@
 
         {{-- Nomor HP field --}}
         <div class="input-group mb-3 btn-sm">
-            <input type="number" name="number" class="form-control {{$errors->has('number') ? 'is-invalid' : ''}}" value="{{ old('number') }}" autofocus>
+            <input type="number" name="number" class="form-control {{$errors->has('number') ? 'is-invalid' : ''}}" value="{{ old('number') }}" placeholder="Nomor Telepon" autofocus>
             <div class="input-group-append">
                 <div class="input-group-text">
                     <span class="fas fa-mobile {{ config('adminlte.classes_auth_icon', '') }}"></span>

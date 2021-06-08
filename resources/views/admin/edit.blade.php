@@ -61,16 +61,15 @@
         <label>Jam Tutup</label>
         <input type="time" name="jam_tutup" value="{{ $admin->jam_tutup }}" onkeydown="return false;" class="form-control">
       </div>
-       <div class="form-group">
-                        <label for="jenis_kelamin">Gender :</label> <br>
-                    <div class="form-check form-check-inline">
-                        <label for="jenis_kelamin">
-                            <input type="radio" name="jenis_kelamin" value="Laki-Laki" id="jenis_kelamin" {{$admin->jenis_kelamin == 'Laki-Laki'? 'checked' : ''}} >Laki-Laki
-                            <input type="radio" name="jenis_kelamin" value="Perempuan" id="jenis_kelamin" {{$admin->jenis_kelamin == 'Perempuan'? 'checked' : ''}} >Perempuan
-                        </label>
-                        </div>
-                </div>
-
+      <div class="form-group">
+        <label for="jenis_kelamin">Gender :</label> <br>
+          <div class="form-check form-check-inline">
+           <label for="jenis_kelamin">
+              <input type="radio" name="jenis_kelamin" value="Laki-Laki" id="jenis_kelamin" {{$admin->jenis_kelamin == 'Laki-Laki'? 'checked' : ''}} >Laki-Laki
+              <input type="radio" name="jenis_kelamin" value="Perempuan" id="jenis_kelamin" {{$admin->jenis_kelamin == 'Perempuan'? 'checked' : ''}} >Perempuan
+            </label>
+          </div>
+      </div>
       <div class="form-group">
         <label>Daftar Harga</label>
         <textarea name="daftar_harga" placeholder="Masukan Daftar Harga" class="form-control" rows="3">{{ $admin->daftar_harga }}</textarea>
@@ -88,7 +87,7 @@
         <input type="email" name="email" placeholder="Email Wajib Diisi..." value="{{$admin->email}}" class="form-control">
       </div>
       <div class="form-group">
-        <label>Nomor HP</label>
+        <label>Nomor Telepon</label>
         <input type="number" name="number" placeholder="Masukan Nomor Toko..." value="{{$admin->number}}" class="form-control">
       </div>
           <div>
@@ -106,3 +105,6 @@
     </section>
     @endif
 @endsection
+
+
+

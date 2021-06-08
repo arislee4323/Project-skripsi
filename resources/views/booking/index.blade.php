@@ -90,9 +90,15 @@
         </div>
         <div class="table-responsive">
         <div class="card-body btn-sm">  
-                     <table class="table table-striped btn-sm">
+        <table class="table table-striped btn-sm">
+        <?php
+        //$current_user_id = auth()->user()->id;
+        $bookings_perpage = json_decode(json_encode($bookings), true);
+        $offset = (intval($bookings_perpage['current_page']) -1 ) * 10;
+        //$btn_disabled = (count($booked_user) > 0 && $current_user_id == $booked_user[0]->user_id) ? 'disabled': '';
+        ?>
                       @if(auth()->user()->role == 'users')
-                       <a href="/booking/new/{{ $admin->id }}" class="btn btn-success btn-sm">Tambah Antrian Anda</a>
+                       <a href="/booking/new/{{ $admin->id }}" class="btn btn-success btn-sm {{$btn_disabled}} ">Tambah Antrian Anda</a>
                       @endif
                        @if(auth()->user()->role == 'admin')
                        <a href="/booking/new/{{ $admin->id }}" class="btn btn-success btn-sm">Tambah Antrian Anda</a><hr>
@@ -104,7 +110,7 @@
                       <tr>
                         <th>Foto</th>
                         <th>Nama</th> 
-                        <th>Nomor HP</th> 
+                        <th>Nomor Telepon</th> 
                         <th>Antrian Anda </th>
                         <th>Pesan</th>
                         <th>tanggal membuat booking</th>
@@ -113,7 +119,7 @@
                         <th></th>
                         @endif
                         <th>Action</th>
-                         @if(auth()->user()->role == 'user')
+                         @if(auth()->user()->role == 'users')
                         <th></th>
                         @endif
                         @if(auth()->user()->role == 'admin')
@@ -157,7 +163,7 @@
                               @endif
                           @endforeach
                          @endif
-                         <td>{{ $no++ }}</td>
+                         <td>{{ $offset+$no++ }}</td>
 
                           @if(auth()->user()->role == 'admin')
                             <td><textarea rows="3" cols="20" onkeydown="return false;">{{ $booking->pesan }}</textarea></td>
@@ -176,32 +182,20 @@
                           <td>
                             @if(auth()->user()->role == 'users')
                             @if($booking->user_id == auth()->user()->id)
-                             <a href="/booking/edit/{{ $booking->id }} " class="btn btn-success btn-sm">Edit Antrian Anda
-                             </a><br><br>
-                               <form action="/booking/delete/{{$booking->id}}" method="post">
-                                 {{ csrf_field() }}
-                                 {{ method_field('DELETE') }}
-                                 <button type="submit" class="btn btn-danger btn-sm">Batalkan Antrian Anda</button>
-                                </form>
+                              <a href="/booking/edit/{{ $booking->id }} " class="btn btn-success btn-sm"><label>Edit Antrian Anda</label></a><br><br>
+                                 <button onclick="handleDeleteUser('{{ $booking->id }}')" type="submit" class="btn btn-danger btn-sm">Batalkan Antrian Anda</button> 
                             @else
                             @endif
-                          
-                          </td>
-                          @endif
-
+                                 </td>
+                            @endif
                            <td>
                               @if(auth()->user()->role == 'admin')
                               @if($booking->user_id == auth()->user()->id)  
                              <a href="/booking/edit/{{ $booking->id }} " class="btn btn-success btn-sm"><label>Edit Antrian Anda</label></a><br><br>
                               @else
-                              
                             @endif
-                               <form action="/booking/delete/{{$booking->id}}" method="post">
-                                 {{ csrf_field() }}
-                                 {{ method_field('DELETE') }}
-                                 <button type="submit" class="btn btn-danger btn-sm">Selesaikan Antrian</button>
-                                </form>
-                                @endif
+                                 <button onclick="handleDeleteAdmin('{{ $booking->id }}')" type="submit" class="btn btn-danger btn-sm">Selesaikan Antrian</button>
+                            @endif
                           </td>
                         </tr>
                       
@@ -210,11 +204,10 @@
                     @endif
                     
                     {{ $bookings->links() }}
-  
+                    <br>
+                    <label style="color:#123c69">JUMLAH ANTRIAN SAAT INI: {{$bookings->total() }}</label>
         </div>
       </div>
-
-
         <!-- /.card-body -->
         
         <!-- /.card-footer-->
@@ -222,5 +215,115 @@
       <!-- /.card -->
 
     </section>   
+    @include('sweetalert::alert')
+
+ 
+    <div class="modal fade" id="deleteModalUser" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                      <div class="modal-content">
+                      <div class="modal-header">
+                      <h5 class="modal-title" id="staticBackdropLabel">Konfirmasi Hapus</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                       Apakah Anda Yakin Akan Membatalkan Antrian
+
+                      </div>
+                      <div class="modal-footer">
+                       <form id="modalDelUser" action="/booking/delete/user" method="post">
+                                 {{ csrf_field() }}
+                                 {{ method_field('DELETE') }}
+                                 <input type="hidden" name="id">
+                                 <button type="submit" class="btn btn-danger btn-sm">Ya</button>
+                                 <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Tidak</button>
+                        </form>
+                     
+                      </div>
+                      </div>
+                      </div>
+                      </div>
+                      <div class="modal fade" id="deleteModalAdmin" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                      <div class="modal-content">
+                      <div class="modal-header">
+                      <h5 class="modal-title" id="staticBackdropLabel">Konfirmasi Selesaikan Antrian</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                      Apakah Anda Yakin akan Menyelesaikan Antrian
+                      </div>
+                      <div class="modal-footer">
+                      <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Tidak</button>
+                      <form id="modalDelAdmin"  action="/booking/delete/" method="post">
+                                 {{ csrf_field() }}
+                                 {{ method_field('DELETE') }}
+                                 <input type="hidden" name="id">
+                                 <button type="submit" class="btn btn-danger btn-sm">Ya</button>
+                                </form>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+
 @endsection
+
+@section('scripts')
+<script>
+  function handleDeleteUser(id)
+  {
+    const defer = $.Deferred();
+    let finished = defer.then(
+      (param) => { 
+         $('#deleteModalUser').modal('show');
+        return 'ok';
+      }
+    )
+    .then(
+      (param) => {
+        const modal = $('#modalDelUser');
+         setTimeout(() => {
+         console.log(modal.html())
+          modal.find('input[name="id"]').val(id);
+         }, 100);        
+      }
+    );
+    defer.resolve('ok');
+    finished.done(() => {
+     
+     console.log($('input:hidden[name="id"]').val())
+    });  
+  }
+
+  function handleDeleteAdmin(id)
+  {
+
+   
+    const defer = $.Deferred();
+    let finished = defer.then(
+      (param) => { 
+         $('#deleteModalAdmin').modal('show')
+        return 'ok';
+      }
+    )
+    .then(
+      (param) => {
+        const modal = $('#modalDelAdmin');
+         setTimeout(() => {
+         console.log(modal.html())
+          modal.find('input[name="id"]').val(id);
+         }, 100);        
+      }
+    );
+    defer.resolve('ok');
+    finished.done(() => {
+     
+     console.log($('input:hidden[name="id"]').val())
+    });  
+  }
+
+</script>
+@endsection
+
+
+
 

@@ -43,8 +43,7 @@
           <div class="form-group">
             <label>Nama Depan</label>
             <input type="text" name="name" placeholder="Masukan Depan..." class="form-control">
-      </div>
-      </div>
+          </div>
       <div class="form-group">
       <label>Nama Belakang</label>
             <input type="text" name="full_name" placeholder="Masukan Nama Belakang..." class="form-control">
@@ -103,3 +102,6 @@
    @endif
     
 @endsection
+
+
+

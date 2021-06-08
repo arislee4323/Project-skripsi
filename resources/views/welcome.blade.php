@@ -73,6 +73,7 @@ body {
 
             .title {
                 font-size: 20px;
+
             }
 
             .links > a {
@@ -135,14 +136,12 @@ body {
             <div class="content">
                
                 
-                    <h6 class="title ">Antriannya Lebih Cepat dan Aman</h6>
+                    <h6 class="title">ANTRIANNYA LEBIH CEPAT DAN AMAN</h6>
                 
 
-                <div class="c">
-                    <h5><span style="color: black">Contact Us:<br></span><br><label> 0895397186245 <br> Customer.service@barberfast.id </label></h5>
-                </div>
+              
                 @if (Route::has('login'))
-                <div class=" links">
+                <div class="links">
                     @auth
                         <a href="{{ url('/home') }}">Home</a>
                     @else

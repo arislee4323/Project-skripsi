@@ -26,9 +26,19 @@ class BookingController extends Controller
     {
         //
         $users = User::all();
+        $auth_user = auth()->user()->id;
+       // dd($auth_user);
         $admin = admin::find($id);
         $bookings = booking::where('admin_id',$id)->paginate(10);
-        return view('booking.index',compact('admin','users','bookings'));
+        $booked_user = booking::where('admin_id', $id)->where('user_id',$auth_user)->get();
+        //echo $auth_user . "\n";
+        $btn_disabled = '';
+        if(count($booked_user) > 0){
+            $btn_disabled = 'disabled';
+        }
+        
+       // $bookings_arr = json_decode(json_encode($all_bookings), true);
+        return view('booking.index',compact('admin','users','bookings', 'btn_disabled'));
     }
 
     /**
@@ -49,7 +59,7 @@ class BookingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,$id)
+    public function store(Request $request,$id) 
     {
         //
         $booking = new Booking();
@@ -67,7 +77,7 @@ class BookingController extends Controller
 
         
       
-      return redirect ('/booking/'.$booking->admin_id);
+      return redirect ('/booking/'.$booking->admin_id)->with('success', 'Booking Antrian Anda Berhasil Dibuat!!!');
     }
 
     /**
@@ -80,7 +90,7 @@ class BookingController extends Controller
     {
         //
     }
-
+    /*
     public function comentcreate($id)
     {
         $admin = admin::find($id);
@@ -102,6 +112,8 @@ class BookingController extends Controller
 
         return redirect ('/booking/'.$booking->admin_id);
     }
+
+
 
     /**
      * Show the form for editing the specified resource.
@@ -129,20 +141,18 @@ class BookingController extends Controller
 
        
         $request->validate([
-            // 'name' => 'nullable',
-            // 'nomor' => 'nullable',
+
             'bb_id' => 'nullable',
             'user_id' => 'nullable'
-
+            
         ]);
+
         $booking = booking::find($id);
-        // $bookingbarbershop->barbershop_id = $request->bb_id;
         $booking->pesan = $request->pesan;
-        // $bookingbarbershop->user_id = $request->user_id;
         $booking->save();
 
-        return redirect('/booking/' .$booking->admin_id);//auth()->user()->id);
-        // return $request;
+        return redirect('/booking/' .$booking->admin_id)->with('success', 'Booking Antrian Anda Berhasil di Edit!!!');
+        
     }
 
     /**
@@ -151,11 +161,23 @@ class BookingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
+        $id = $request->id;
         $booking = booking::find($id);
         $booking->delete();
         
-        return redirect('/booking/'.$booking->admin_id);
+        return redirect('/booking/'.$booking->admin_id)->with('success', 'Antrian Berhasil Diselesaikan!!!');
+    }
+
+    public function delete(Request $request)
+    {
+        $id = $request->id;
+        $booking = booking::find($id);
+        $booking->delete();
+        
+        return redirect('/booking/'.$booking->admin_id)->with('success', 'Antrian Anda Berhasil Dibatalkan!!!');
     }
 }
+
+
